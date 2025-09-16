@@ -122,5 +122,5 @@ However, costs may still accrue while environments are running. To avoid unneces
 &nbsp;
 
 ## ⚖️ Disclaimer
-Stream Security CDR GOAT is provided as-is without warranties of any kind. By using this project you accept full responsibility for all outcomes.  
-Scenarios are intentionally vulnerable and must only be deployed in isolated, non-production accounts. Stream Security and project contributors assume no liability for misuse, misconfiguration, or unintended consequences, including any illegal activity. Ensuring safe and appropriate use is your responsibility.  
+This content is provided for educational and informational purposes only. Stream Security’s CDRGoat is provided as-is without warranties of any kind. By using this project you accept full responsibility for all outcomes. Scenarios are intentionally vulnerable and must only be deployed in isolated, non-production accounts. Stream Security does not guarantee the accuracy or completeness of the content and assumes no liability for any damages resulting from its use.
+Stream Security does not endorse or condone any illegal activity and disclaims any liability arising from misuse of the material. Stream Security and project contributors assume no liability for misconfiguration or unintended consequences, including any illegal activity. Ensuring safe and appropriate use is your responsibility.
