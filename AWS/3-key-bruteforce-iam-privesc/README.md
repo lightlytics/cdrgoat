@@ -22,7 +22,7 @@ This scenario highlights how exposed credentials, over-permissive role assumptio
 - User with leaked AWS key – lambda:ListFunctions, lambda:InvokeFunction, lambda:UpdateFunctionCode, iam:GetRole
 - SteamGoat_Lambda role - Has sts:AssumeRole
 - SteamGoat_Users role - Discovered via Lambda attachment
-- Brute-forced roles - COSMO_devops, COSMO_dev, COSMO_backup
+- Brute-forced roles
 - SteamGoat_root role - AdministratorAccess
 
 &nbsp;
