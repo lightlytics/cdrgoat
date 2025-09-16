@@ -49,13 +49,7 @@ The attacker’s objective is to compromise an internet-exposed EC2 instance, us
 &nbsp;
 
 ## 📈 Expected Results
-**Successful Completion**
-- Sensitive data retrieved from RDS.
-
-**Detection Oportunities**
-- SSH key injection to EC2b
-- abnormal connection to RDS
-- Abnormal usage of IMDS belongs to EC2a
+**Successful Completion** - Sensitive data retrieved from RDS.
 
 &nbsp;
 
