@@ -42,14 +42,7 @@ Demonstrate how an SSRF vulnerability can lead to credential theft, abuse of ove
 &nbsp;
 
 ## 📈 Expected Results
-**Successful Completion**
-- Root user receives a newly created access key, granting the attacker persistent, full account-wide administrative privileges.  
-
-**Detection Opportunities**
-- Abnormal behavior of IAM user with multiple failed requests
-- Numbers of failed IAM config changes attempts by compute resource
-- IAM config change by compute resource
-- Adding user to group with admin privileges
+**Successful Completion** - Root user receives a newly created access key, granting the attacker persistent, full account-wide administrative privileges.  
 
 &nbsp;
 
