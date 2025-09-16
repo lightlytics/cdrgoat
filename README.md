@@ -103,7 +103,6 @@ terraform destroy   # clean up resources
 ## Contributing
 We welcome contributions! You can submit pull requests for:  
 - New scenarios  
-- Detection opportunities  
 - Bug fixes  
 - Documentation improvements
   
