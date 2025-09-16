@@ -1,0 +1,126 @@
+![CDRGoat](./assets/CDRGoat.png)
+
+
+Cloud adoption has reshaped the enterprise attack surface, where adversaries can chain misconfigurations, excessive permissions, and runtime blind spots into full compromises.  
+**Cloud Detection & Response GOAT** is a scenario-driven, intentionally vulnerable framework designed to help defenders validate detection pipelines, practice SOC workflows and train analysts on realistic cloud attack paths - all in a safe, reproducible environment with no impact on production.  
+
+CDR GOAT enables:
+- **Advanced simulations** - Misconfigurations combined with live attacker behavior (privilege escalation, credential theft, lateral movement).  
+- **Detection & response validation** - Confirm alerts fire, understand context, and rehearse investigation workflows under realistic pressure.  
+- **SOC readiness** - Train analysts on real signals instead of abstract examples.  
+- **Purple teaming** - Run adversary emulation while measuring blue team effectiveness in real time.  
+
+&nbsp;
+
+## ⚠️ Warning
+- Do **not** deploy to production
+- Use only isolated sandbox/test accounts
+- Expect cloud usage costs while resources are running
+- Always destroy resources after finishing a scenario
+
+&nbsp;
+
+## ✨ Features
+- **Scenario‑driven attack paths** - Reproducible simulations of real‑world adversary tactics in cloud environments (IAM abuse, SSRF, privilege escalation, data exfiltration, etc.).
+- **Safe to run** - Resources are provisioned in isolated test accounts with minimal blast radius.
+- **Automated Attack Script** - A fully automated script to execute attacks end-to-end, reducing manual steps and ensuring repeatable outcomes.
+
+&nbsp;
+
+## 🚀 Getting Started
+
+#### 🧩 Prerequisites
+- AWS account (sandbox recommended, do not run in production)  
+- AWS CLI configured with appropriate credentials  
+- jq utility for parsing JSON output  
+
+#### ⚙️ Install Dependencies
+macOS
+```bash
+brew install terraform awscli jq
+```
+Linux
+```bash
+sudo apt update && sudo apt install -y terraform awscli jq
+```
+
+#### 🗂️ Simulation Scenarios
+The simulation scenarios are organized by folder under `scenarios/`.  
+Each folder includes:  
+- A **Terraform plan** to provision the environment for the scenario.  
+- An **attack script** that automates the attack path, allowing defenders to focus on detection and response.  
+
+Navigate into a scenario folder to run Terraform and execute the attack script as described below.
+
+#### 🏗️ Deploy
+Before deploying, download the provided Terraform configuration and attack script to the machine where you will run the attack steps.
+
+Use the provided Terraform configuration to deploy the full lab environment.
+
+At the end of the deployment Terraform will display output values (such as the public IP of the target instance). Save these details, you will need them when running the attack script.
+
+⚠️ The environment must allow traffic from the machine where you will execute the attack script. In some cases when specifically mentioned, you will need to explicitly add your IP (or network range) to the whitelist. For example:
+
+```bash
+terraform init
+terraform apply -var='attack_whitelist=["10.10.10.0/24","20.20.0.0/16"]' -auto-approve
+```
+
+#### 🎯 Attack Execution
+Since our focus is on the defender’s perspective, each scenario includes a **fully automated attack script**. Instead of manually typing commands, the script replays the attack path so you can observe detections and signals.
+You may be prompted to provide inputs (e.g., your external IP). These are always displayed at the end of the Terraform deployment.
+
+```bash
+chmod +x attack.sh
+./attack.sh
+```
+
+
+![Example1](./assets/attack_example1.png)
+![Example2](./assets/attack_example2.png)
+
+#### 🧹 Clean Up
+When you are finished, destroy all resources to avoid ongoing costs. This will tear down the entire lab environment including all compute, networking, and IAM components created during deployment.
+
+```bash
+terraform destroy -var='attack_whitelist=[]' -auto-approve
+```
+
+&nbsp;
+
+## 📖 Usage Guide
+Terraform commands you’ll use most often:  
+
+```bash
+terraform init      # prepare the working directory
+terraform apply     # deploy a scenario
+terraform destroy   # clean up resources
+```
+
+&nbsp;
+***
+&nbsp;
+
+## Contributing
+We welcome contributions! You can submit pull requests for:  
+- New scenarios  
+- Detection opportunities  
+- Bug fixes  
+- Documentation improvements
+  
+&nbsp;
+## 💰 Cost
+Each scenario is designed with minimal cloud resources to reduce expenses and limit blast radius.  
+However, costs may still accrue while environments are running. To avoid unnecessary charges, always shut down and destroy the environment when you are finished.
+
+&nbsp;
+
+## 👥 Contributors
+- Petr Zuzanov - Principal Security Researcher, Stream Security
+- David Moss – Product Manager, Stream Security
+
+&nbsp;
+
+## ⚖️ Disclaimer
+Stream Security CDR GOAT is provided as-is without warranties of any kind. By using this project you accept full responsibility for all outcomes.  
+Scenarios are intentionally vulnerable and must only be deployed in isolated, non-production accounts. Stream Security and project contributors assume no liability for misuse, misconfiguration, or unintended consequences, including any illegal activity. Ensuring safe and appropriate use is your responsibility.  
