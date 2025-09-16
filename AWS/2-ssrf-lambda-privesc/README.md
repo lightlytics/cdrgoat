@@ -46,14 +46,7 @@ Demonstrate how an SSRF vulnerability can be leveraged to gain AWS credentials, 
 &nbsp;
 
 ## 📈 Expected Results
-**Successful Completion**
-- Administrative IAM user created with full account privileges.
-
-**Detection Opportunities**
-- Abnormal usage of IMDS belongs to EC2a
-- Abnormal SSM usage from outside
-- New Lambda function creation with AdministratorAccess assigned
-- IAM config change by compute resource
+**Successful Completion** - Administrative IAM user created with full account privileges.
 
 &nbsp;
 
