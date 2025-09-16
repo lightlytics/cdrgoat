@@ -76,8 +76,7 @@ chmod +x attack.sh
 ```
 
 
-![Example1](./assets/attack_example1.png)
-![Example2](./assets/attack_example2.png)
+![attack](./assets/attack.png)
 
 #### 🧹 Clean Up
 When you are finished, destroy all resources to avoid ongoing costs. This will tear down the entire lab environment including all compute, networking, and IAM components created during deployment.
