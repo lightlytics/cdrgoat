@@ -12,9 +12,6 @@ This scenario demonstrates how an SSRF vulnerability in a public-facing EC2 inst
 - Subnets - 1 private, 1 public (EC2 in public)
 - Internet Gateway - attached to VPC
 
-**Compute**
-- EC2 - Publicly accessible, hosts vulnerable web application
-
 **Serverless**
 - Lambda function - Capable of managing IAM users and keys
 
