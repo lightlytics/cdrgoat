@@ -48,13 +48,7 @@ Demonstrate how leaked access keys and poorly designed IAM role structures can a
 &nbsp;
 
 ## 📈 Expected Results
-**Successful Completion**
-- The attacker enumerates IAM roles, assumes COSMO_root, and obtains AdministratorAccess, resulting in full account compromise.
-
-**Detection Opportunities**
-- Abnormal behavior of IAM user with multiple failed requests
-- Privileged Lambda modification
-- IAM config change by compute resource
+**Successful Completion** - The attacker enumerates IAM roles, assumes COSMO_root, and obtains AdministratorAccess, resulting in full account compromise.
 
 &nbsp;
 
