@@ -33,11 +33,11 @@ Demonstrate how an SSRF vulnerability can lead to credential theft, abuse of ove
 &nbsp;
 
 ## 🗡️ Attack Walkthrough
-- **Initial Access** - Exploit SSRF in EC2’s web application to access the Instance Metadata Service and obtain IAM role credentials.  
-- **Abuse EC2 Role** - Use stolen credentials with lambda:* permissions to enumerate and invoke Lambda functions.  
-- **Enumeration** - Through Lambda, run ListUsers to identify IAM users in the account.  
-- **Privilege Escalation** - Invoke the Lambda function to assign a new access key to the root user.  
-- **Persistence** - Use the newly generated root access key for persistent administrative control.  
+- **Initial Access** - Exploit SSRF in the public web app to query IMDS and steal the EC2 role’s temporary credentials.
+- **Abuse EC2 Role** - Use those credentials (role has lambda:*) to list and invoke Lambda functions.
+- **Discovery** - Find a user-management Lambda that has iam:CreateAccessKey (or similar IAM write) permissions.
+- **Privilege Escalation** - Invoke or modify that Lambda to create access keys for guessed IAM usernames (one is an admin/root).
+- **Persistence/Takeover** - Use the newly created admin/root keys for persistent, full account control.
 
 &nbsp;
 
