@@ -46,13 +46,7 @@ This scenario demonstrates how leaked AWS access keys combined with IAM policy v
 &nbsp;
 
 ## 📈 Expected Results
-**Successful Completion**
-- NFS server accessed from private subnet.  
-
-**Detection Opportunities**
-- Abnormal behavior of IAM user with multiple failed requests
-- Abnormal SSM usage from outside
-- Network scan activity
+**Successful Completion** - NFS server accessed from private subnet.  
 
 &nbsp;
 
