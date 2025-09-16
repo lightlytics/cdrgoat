@@ -47,12 +47,7 @@ This scenario demonstrates how an attacker can abuse overly permissive IAM group
 &nbsp;
 
 ## 📈 Expected Results
-**Successful Completion**
-- Admin role assumed via Lambda exploitation.
-
-**Detection Opportunities**
-- Abnormal behavior of IAM user with multiple failed requests
-- Multiple failed attempts on same action (AddUserToGroup)
+**Successful Completion** - Admin role assumed via Lambda exploitation.
 
 &nbsp;
 
