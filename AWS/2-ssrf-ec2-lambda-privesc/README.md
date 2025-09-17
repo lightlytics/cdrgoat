@@ -1,4 +1,4 @@
-# 2. SSRF to Lambda Privilege Escalation
+# 2. SSRF on EC2 to Lambda Privilege Escalation
 
 ## 🗺️ Overview
 This scenario demonstrates how an attacker can chain a vulnerability in a public-facing EC2 instance with overly permissive IAM and Lambda roles to achieve full AWS account takeover. The attack begins with exploitation of an SSRF vulnerability in EC2-A’s web application to access the Instance Metadata Service (IMDSv2) and steal temporary IAM role credentials. With these credentials, the attacker pivots into an internal EC2-B via AWS Systems Manager (SSM), then abuses excessive permissions, specifically iam:PassRole, lambda:CreateFunction and lambda:InvokeFunction, to create and invoke a malicious Lambda function with AdministratorAccess. The Lambda is used to assign administrative privileges to a new IAM user under the attacker’s control, granting persistent, account-wide access. This exercise highlights the dangers of SSRF exploitation, weak IAM hygiene, and privilege escalation through misconfigured Lambda execution roles.
@@ -14,7 +14,7 @@ This scenario demonstrates how an attacker can chain a vulnerability in a public
 
 **Compute**
 - EC2-A - Publicly accessible, hosts vulnerable web application
-- EC2-B - Internal host, accessible only via SSM
+- EC2-B - Internal host, not accessible from internet directly
 
 **Serverless**
 - Lambda - Deployed by attacker for privilege escalation
@@ -32,7 +32,7 @@ Demonstrate how an SSRF vulnerability can be leveraged to gain AWS credentials, 
 &nbsp;
 
 ## 🖼️ Diagram
-![Diagram](./diagram.png)
+<img src="./diagram.png" alt="Diagram" width="400" style="display:block; margin:auto;" />
 
 &nbsp;
 

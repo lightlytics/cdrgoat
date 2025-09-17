@@ -1,4 +1,4 @@
-# 3. Privilege Escalation via Leaked AWS Access Key and IAM Role Brute Force
+# 3. Privilege Escalation via Lambda and IAM Role Enumeration
 
 ## 🗺️ Overview
 This scenario demonstrates how a leaked AWS access key can be abused to escalate privileges through weak IAM design. An attacker begins with a compromised long-term access key that initially provides only limited permissions, but is able to enumerate roles, policies, and Lambda functions. By updating the code of a privileged Lambda function and leveraging attached IAM roles, the attacker discovers predictable role naming conventions and successfully enumerates trust relationships. Ultimately, they assume the steamgoat_root role with AdministratorAccess, granting full control of the AWS environment. 
@@ -8,9 +8,6 @@ This scenario highlights how exposed credentials, over-permissive role assumptio
 &nbsp;
 
 ## 🧩 Required Resources
-
-**Networking**
-- 1 × VPC - Standard routing and internet access for attacker interaction
 
 **Compute**
 - None directly leveraged (attack is credential-driven)
@@ -33,7 +30,7 @@ Demonstrate how leaked access keys and poorly designed IAM role structures can a
 &nbsp;
 
 ## 🖼️ Diagram
-![Diagram](./diagram.png)
+<img src="./diagram.png" alt="Diagram" width="400" style="display:block; margin:auto;" />
 
 &nbsp;
 

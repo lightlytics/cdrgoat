@@ -1,4 +1,4 @@
-# 5. Privilege Escalation via SSRF and Lambda Abuse
+# 5. Privilege Escalation via CreateAccessKey
 
 ## 🗺️ Overview
 This scenario demonstrates how an SSRF vulnerability in a public-facing EC2 instance can be chained with overly permissive Lambda privileges to achieve full AWS account compromise. After exploiting the vulnerable web application to access the Instance Metadata Service, the attacker retrieves IAM role credentials that grant lambda:* permissions, enabling them to create, list, modify, and invoke Lambda functions. During enumeration, they identify a Lambda used for user management and infer that it has iam:Create* permissions. By attempting to generate new access keys for guessed IAM usernames, the attacker successfully creates keys for multiple accounts, one of which belongs to an administrator. With the new admin credentials, they gain persistent, full account-wide control, demonstrating the compounded risks of SSRF exploitation, misconfigured IAM roles, and over-privileged Lambda functions.
@@ -7,16 +7,10 @@ This scenario demonstrates how an SSRF vulnerability in a public-facing EC2 inst
 
 ## 🧩 Required Resources
 
-**Networking**
-- 1 × VPC - Single region
-- Subnets - 1 private, 1 public (EC2 in public)
-- Internet Gateway - attached to VPC
-
 **Serverless**
 - Lambda function - Capable of managing IAM users and keys
 
 **IAM / Identities & Access**
-- EC2 role - lambda:* (list, modify, invoke)
 - Lambda execution role - Permissions to manage IAM users and keys
 - Root user - Existing account with full administrative privileges
 
@@ -28,7 +22,7 @@ Demonstrate how an SSRF vulnerability can lead to credential theft, abuse of ove
 &nbsp;
 
 ## 🖼️ Diagram
-![Diagram](./diagram.png)
+<img src="./diagram.png" alt="Diagram" width="400" style="display:block; margin:auto;" />
 
 &nbsp;
 
