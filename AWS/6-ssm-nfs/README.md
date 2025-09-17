@@ -32,7 +32,7 @@ This scenario demonstrates how leaked AWS access keys combined with IAM policy v
 &nbsp;
 
 ## 🖼️ Diagram
-![Diagram](./diagram.png)
+<img src="./diagram.png" alt="Diagram" width="400" style="display:block; margin:auto;" />
 
 &nbsp;
 

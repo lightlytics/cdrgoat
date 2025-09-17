@@ -1,4 +1,4 @@
-# 1. EC2 to RDS Pivot
+# 1. RCE on EC2 to RDS Pivot
 
 ## 🗺️ Overview
 This scenario demonstrates a multi-stage AWS compromise in which an attacker exploits a remote code execution vulnerability in a public web application hosted on EC2-A. Leveraging the instance’s IAM role credentials obtained from the metadata service, they enumerate the environment and identify a private EC2 instance (EC2-B). By injecting an SSH key or initiating an SSM session, they pivot into EC2-B, where they uncover credentials and connection details for an RDS MySQL database. Using this access, the attacker connects to the database and exfiltrates sensitive data. This exercise highlights how exposed services, weak segmentation between public and private resources, and over-permissive IAM roles can be chained together, public exposure, IAM credential misuse, and poor network design, culminating in full compromise of sensitive information inside AWS.
@@ -13,12 +13,12 @@ This scenario demonstrates a multi-stage AWS compromise in which an attacker exp
 - Internet Gateway - attached to VPC
 - Security Groups
   - allow HTTP (80) from internet to EC2-A
-  - allow SSH (22) from EC2-A to EC2-B
+  - allow SSH (22) from internet to EC2-B
   - allow MySQL (3306) from EC2-B to RDS
 
 **Compute**
 - EC2-A - Public web server (vulnerable web application, internet-facing)
-- EC2-B - Internal instance, reachable only from EC2-A, local subnet
+- EC2-B - Second instance for internal purposes but internet-facing
 
 **Database / Storage**
 - RDS MySQL - Internal database storing sensitive data
@@ -34,7 +34,7 @@ The attacker’s objective is to compromise an internet-exposed EC2 instance, us
 &nbsp;
 
 ## 🖼️ Diagram
-![Diagram](./diagram.png)
+<img src="./diagram.png" alt="Diagram" width="400" style="display:block; margin:auto;" />
 
 &nbsp;
 

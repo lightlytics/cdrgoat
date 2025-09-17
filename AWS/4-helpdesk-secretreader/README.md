@@ -1,4 +1,4 @@
-# 4. S3-iam-group-bruteforce
+# 4. From Helpdesk user to Secret Readers
 
 ## 🗺️ Overview
 This scenario demonstrates how an attacker can abuse overly permissive IAM group management when starting with a leaked AWS access key. After authenticating with the compromised key, the attacker discovers they have permission to call iam:AddUserToGroup but cannot list existing groups. To overcome this, they attempt to brute-force likely group names and eventually succeed in adding their user account to a high-privilege group, StreamGoat_SecretReader, that grants access to AWS Secrets Manager. With these new privileges, the attacker enumerates and exfiltrates sensitive secrets. This exercise highlights how leaked long-term credentials, weak IAM design, and the lack of proper controls on group membership can lead to privilege escalation and the compromise of sensitive data.
@@ -8,11 +8,10 @@ This scenario demonstrates how an attacker can abuse overly permissive IAM group
 ## 🧩 Required Resources
 
 **Identities & Access**
-- User with leaked AWS key – lambda:ListFunctions, lambda:InvokeFunction, lambda:UpdateFunctionCode, iam:GetRole
-- SteamGoat Lambda role - Has sts:AssumeRole
-- SteamGoat Users role - Discovered via Lambda attachment
-- Brute-forced roles
-- SteamGoat root role - AdministratorAccess
+- User 'peter.parker' with leaked AWS key, member of a group 'StreamGoat-Group-helpdesk'
+- Group 'StreamGoat-Group-helpdesk' with multiple iam:List/Get permissions for Roles and Policies + iam:AddUserToGroup
+- Group 'StreamGoat-Group-secretreaders' with permissions to list and get secrets' value
+- Secret 'StreamGoat-DB-PROD-xxxx' with sensitive login/password
 
 &nbsp;
 
@@ -23,7 +22,7 @@ This scenario demonstrates how an attacker can abuse overly permissive IAM group
 &nbsp;
 
 ## 🖼️ Diagram
-<img src="./diagram.png" alt="Diagram" width="400"/>
+<img src="./diagram.png" alt="Diagram" width="400" style="display:block; margin:auto;" />
 
 &nbsp;
 
