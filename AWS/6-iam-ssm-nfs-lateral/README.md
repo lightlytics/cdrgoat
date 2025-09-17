@@ -72,9 +72,8 @@ terraform init
 terraform apply -auto-approve
 ```
 
-### 📝 Get Output Values
-Get output values that will be required in the next step:
-
+#### 📝 Get Output Values
+Execute the commands below to collect the values that will serve as the attack script’s starting inputs
 ```bash
 terraform output --json | jq -r '"ACCESS KEY ID: \(.leaked_access_key.value) \nACCESS SECRET KEY: \(.leaked_secret_key.value)"'
 ```
