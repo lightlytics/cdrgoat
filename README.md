@@ -30,6 +30,7 @@ CDR GOAT enables:
 ## 🚀 Getting Started
 
 #### 🧩 Prerequisites
+- Terraform ver. 1.5 or above
 - AWS account (sandbox recommended, do not run in production)  
 - AWS CLI configured with appropriate credentials  
 - jq utility for parsing JSON output  
