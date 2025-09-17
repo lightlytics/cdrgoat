@@ -134,9 +134,11 @@ resource "aws_iam_access_key" "leaked_key" {
 }
 
 output "leaked_user_access_key_id" {
-  value = nonsensitive(aws_iam_access_key.leaked_key.id)
+  value = aws_iam_access_key.leaked_key.id
+  sensitive = true
 }
 
 output "leaked_user_secret_access_key" {
-  value     = nonsensitive(aws_iam_access_key.leaked_key.secret)
+  value     = aws_iam_access_key.leaked_key.secret
+  sensitive = true
 }

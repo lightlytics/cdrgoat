@@ -112,11 +112,13 @@ resource "aws_iam_access_key" "neo_access_key" {
 }
 
 output "neo_access_key_id" {
-  value     = nonsensitive(aws_iam_access_key.neo_access_key.id)
+  value     = aws_iam_access_key.neo_access_key.id
+  sensitive = true
 }
 
 output "neo_secret_access_key" {
-  value     = nonsensitive(aws_iam_access_key.neo_access_key.secret)
+  value     = aws_iam_access_key.neo_access_key.secret
+  sensitive = true
 }
 
 #######################################
