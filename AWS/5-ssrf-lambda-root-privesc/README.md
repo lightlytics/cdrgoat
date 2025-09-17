@@ -62,11 +62,17 @@ sudo apt update && sudo apt install -y terraform awscli jq
 Before deploying, download the provided Terraform configuration and attack script to the machine where you will run the attack steps.
 
 Use the provided Terraform configuration to deploy the full lab environment.
-At the end of the deployment Terraform will display output values such as the public IP address of the target instance. Save these details, you will need them to run the attack script in the next stage.
 
 ```bash
 terraform init
 terraform apply -auto-approve
+```
+
+### 📝 Get Output Values
+Get output values that will be required in the next step:
+
+```bash
+terraform output --json | jq -r '"ACCESS KEY ID: \(.neo_access_key_id.value) \nACCESS SECRET KEY: \(.neo_secret_access_key.value)"'
 ```
 
 #### 🎯 Attack Execution

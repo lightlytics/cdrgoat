@@ -58,6 +58,14 @@ Before deploying, download the provided Terraform configuration and attack scrip
 Use the provided Terraform configuration to deploy the full lab environment.
 
 At the end of the deployment Terraform will display output values (such as the public IP of the target instance). Save these details, you will need them when running the attack script.
+Some of this information might be sensitive and thus reducted by Terraform.
+In order to reveal specific output we can use `terraform output` command.
+
+For example to get output value of `leaked_user_secret_access_key` we can execute following:
+
+```bash
+terraform output leaked_user_access_key_id
+```
 
 ⚠️ When a scenario’s initial step targets a public IP, add the public IP (or CIDR) of the machine that will run the attack script to the environment whitelist via terraform apply so the script can reach the target and complete any required interactions. See example
 

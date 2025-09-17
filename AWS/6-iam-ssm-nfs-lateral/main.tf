@@ -197,9 +197,11 @@ resource "aws_instance" "streamgoat_ec2" {
 #####################
 
 output "leaked_access_key" {
-  value     = nonsensitive(aws_iam_access_key.alisa_keys.id)
+  value     = aws_iam_access_key.alisa_keys.id
+  sensitive = true
 }
 
 output "leaked_secret_key" {
-  value     = nonsensitive(aws_iam_access_key.alisa_keys.secret)
+  value     = aws_iam_access_key.alisa_keys.secret
+  sensitive = true
 }

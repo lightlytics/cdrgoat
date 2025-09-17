@@ -351,13 +351,15 @@ resource "aws_iam_access_key" "user_key" {
 }
 
 ############################
-# Outputs (Sensitive)
+# Outputs
 ############################
 
 output "streamgoat_user_access_key_id" {
-  value = nonsensitive(aws_iam_access_key.user_key.id)
+  value = aws_iam_access_key.user_key.id
+  sensitive = true
 }
 
 output "streamgoat_user_secret_access_key" {
-  value = nonsensitive(aws_iam_access_key.user_key.secret)
+  value = aws_iam_access_key.user_key.secret
+  sensitive = true
 }
