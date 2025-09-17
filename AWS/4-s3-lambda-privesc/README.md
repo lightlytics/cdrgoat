@@ -7,16 +7,6 @@ This scenario demonstrates how an attacker can abuse overly permissive IAM group
 
 ## 🧩 Required Resources
 
-**Networking**
-- VPC – standard routing and internet access
-- Internet Gateway – attached to the VPC
-
-**Storage**
-- S3 bucket - Contains sensitive data, permissive bucket policy allows list/get/put
-
-**Serverless**
-- Lambda Function - Attacker controlled arbitrary code
-
 **Identities & Access**
 - User with leaked AWS key – lambda:ListFunctions, lambda:InvokeFunction, lambda:UpdateFunctionCode, iam:GetRole
 - SteamGoat Lambda role - Has sts:AssumeRole
