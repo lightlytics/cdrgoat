@@ -23,7 +23,7 @@ This scenario demonstrates how an attacker can abuse overly permissive IAM group
 &nbsp;
 
 ## 🖼️ Diagram
-![Diagram](./diagram.png){ width=200px }
+<img src="./diagram.png" alt="Diagram" width="200"/>
 
 &nbsp;
 
