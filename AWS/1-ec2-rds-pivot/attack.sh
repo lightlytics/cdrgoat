@@ -17,9 +17,9 @@ else
   RED=""; GREEN=""; YELLOW=""; BLUE=""; MAGENTA=""; CYAN=""; BOLD=""; RESET=""
 fi
 
-step() { printf "\n%s[*]%s %s\n" "${YELLOW}" "${RESET}" "$*"; }
-ok()   { printf "%s[OK]%s  %s\n"  "${GREEN}"  "${RESET}" "$*"; }
-err()  { printf "%s[ERR]%s %s\n"  "${RED}"    "${RESET}" "$*"; }
+step() { printf "\n[%s] %s[*]%s %s\n" "$(date +%H:%M:%S)" "${YELLOW}" "${RESET}" "$*"; }
+ok()   { printf "[%s] %s[OK]%s  %s\n" "$(date +%H:%M:%S)" "${GREEN}" "${RESET}" "$*"; }
+err()  { printf "[%s] %s[ERR]%s %s\n" "$(date +%H:%M:%S)" "${RED}" "${RESET}" "$*"; }
 info() { printf "%s[i]%s   %s\n"  "${BLUE}"   "${RESET}" "$*"; }
 
 printf "%s%s%s\n" "${BOLD}${GREEN}" "  ________  ___  _____          __     " "${RESET}"
@@ -178,9 +178,9 @@ try() {
   rc=$?
   set -e
   if [ $rc -eq 0 ]; then
-    printf "%s[OK]%s    %s\n"   "$GREEN" "$RESET" "$desc"
+    printf "[%s] %s[OK]%s    %s\n" "$(date +%H:%M:%S)" "$GREEN" "$RESET" "$desc"
   else
-    printf "%s[DENY]%s  %s (exit %s)\n" "$RED"   "$RESET" "$desc" "$rc"
+    printf "[%s] %s[DENY]%s  %s\n" "$(date +%H:%M:%S)" "$RED" "$RESET" "$desc"
   fi
 }
 
